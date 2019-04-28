@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Trajets</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/session.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			<!--#my-form grabs the form id-->
+			$("#contact").submit(function(e) {
+				e.preventDefault();
+				$.ajax( {
+					<!--Appel de reservation.php-->
+					url: "http://dwarves.iut-fbleau.fr/~ralijaon/fichiersPT/reservation.php",
+					method: "post",
+					data: $("form").serialize(),
+					dataType: "text",
+					success: function(strMessage) {
+						$("#message").text(strMessage);
+						$("#contact")[0].reset();
+					}
+				});
+			});
+		});
+	</script>
+
+	<script>
+
+		$(function() {
+
+			if(getCookie("lastname") != "" && getCookie("lastname") != null && getCookie("firstname") != "" && getCookie("firstname") != null && getCookie("id") != "" && getCookie("id") != null && getCookie("token") != "" && getCookie("token") != null){
+
+				let o = {
+					"id": getCookie("id"),
+					"token": getCookie("token")
+				}
+
+				$.ajax( {
+					url: "http://dwarves.iut-fbleau.fr/~ralijaon/fichiersPT/api.php",
+					method: "post",
+					data: $.param(o),
+					dataType: "text",
+					success: function(response) {
+						if(response != "success"){
+							document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+							document.location.href = 'index.html';
+						}
+
+					}
+				});
+
+			} else {
+				document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+				document.location.href = 'index.html';
+			}
+
+		});
+	</script>
+</head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body class="w3-content" style="max-width:1300px">
+
+	<!-- Third Grid: Swing By & Contact -->
+	<div class="w3-row" id="contact">
+		<div class="w3-half w3-teal w3-container">
+			<div style="width: 100%;">
+			<ul class="dropdownmenu">
+        	<li style="width:20%"><a href="#"><img style="width:120px" src="./img/menu.png"/></a>
+				<ul>
+				<li><a href="reservation.html" >Réservations</a></li>
+				<li><a href="trajet.html" class="active">Trajets</a></li>
+				<li><a href="evenement.html">Evénements</a></li>
+				<li><a href="livredor.html">Livre d'or</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li style="background: red"><a href="logout.html"><i class="fas fa-sign-out-alt"></i></a></li>
+			</ul>
+			</li>
+			</ul>
+			</div>
+			<div class="w3-padding-64 w3-padding-large">
+				<h1>Trajets</h1>
+				<p id="message"></p>
+				<br><br>
+				<div style="width:100%">
+					<iframe style="width:100%" src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d10595.816063938468!2d2.6846081412224163!3d48.3998262179219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e1!4m5!1s0x47e5f482d85b7b99%3A0x25ca8642ba306cfc!2sIUT+S%C3%A9nart-Fontainebleau%2C+Route+foresti%C3%A8re+Hurtault%2C+77300+Fontainebleau%2C+France!3m2!1d48.398222999999994!2d2.68723!4m5!1s0x47e5f488ad7ca349%3A0xff5eea6f01c3ab80!2sCh%C3%A2teau+de+Fontainebleau%2C+Fontainebleau%2C+France!3m2!1d48.402096199999995!2d2.6994958!5e0!3m2!1sfr!2sus!4v1552004832959" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+					<p>Trajet IUT - Ch&acirc;teau de Fontainebleau </p>
+					<a style="text-decoration:none" target="_blank" href="https://www.google.com/maps/dir/IUT+S%C3%A9nart-Fontainebleau,+Route+foresti%C3%A8re+Hurtault,+77300+Fontainebleau,+France/Ch%C3%A2teau+de+Fontainebleau,+77300+Fontainebleau,+France/@48.399,2.692805,14z/data=!4m14!4m13!1m5!1m1!1s0x47e5f482d85b7b99:0x25ca8642ba306cfc!2m2!1d2.68723!2d48.398223!1m5!1m1!1s0x47e5f488ad7ca349:0xff5eea6f01c3ab80!2m2!1d2.6994958!2d48.4020962!3e1?hl=fr-FR">
+					<button style="width: 90px;height: 40px;" type="button">D&eacute;marrer</button></a>
+				</div>
+				<br><br>
+				<div style="width:100%">
+					<iframe style="width:100%" src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d10595.52254933469!2d2.6857527356895647!3d48.401235348734474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e1!4m5!1s0x47e5f482d85b7b99%3A0x25ca8642ba306cfc!2sIUT+S%C3%A9nart-Fontainebleau%2C+Route+foresti%C3%A8re+Hurtault%2C+77300+Fontainebleau%2C+France!3m2!1d48.398222999999994!2d2.68723!4m5!1s0x47e5f489856d2c43%3A0x104437b627e5c167!2sMONOPRIX%2C+Route+du+Ch%C3%A2teau%2C+Fontainebleau%2C+France!3m2!1d48.405306599999996!2d2.7017849999999997!5e0!3m2!1sfr!2sus!4v1552048299816" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+					<p>Trajet IUT - Monoprix Fontainebleau</p>
+					<a style="text-decoration:none" target="_blank" href="https://www.google.com/maps/dir/IUT+S%C3%A9nart-Fontainebleau,+Route+foresti%C3%A8re+Hurtault,+77300+Fontainebleau,+France/MONOPRIX,+23+Route+du+Ch%C3%A2teau,+77300+Fontainebleau,+France/@48.401071,2.694507,15z/data=!4m14!4m13!1m5!1m1!1s0x47e5f482d85b7b99:0x25ca8642ba306cfc!2m2!1d2.68723!2d48.398223!1m5!1m1!1s0x47e5f489856d2c43:0x104437b627e5c167!2m2!1d2.701785!2d48.4053066!3e1?hl=fr-FR"><button style="width: 90px;height: 40px;" type="button">
+					D&eacute;marrer</button></a>
+
+				</div>
+				<br><br>
+				<div style="width:100%">
+					<iframe style="width:100%" src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d10595.551999329426!2d2.6848278317859005!3d48.401093963989474!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e1!4m5!1s0x47e5f482d85b7b99%3A0x25ca8642ba306cfc!2sIUT+S%C3%A9nart-Fontainebleau%2C+Route+foresti%C3%A8re+Hurtault%2C+77300+Fontainebleau%2C+France!3m2!1d48.398222999999994!2d2.68723!4m5!1s0x47e5f489aa0bf91d%3A0x250206940f32ffd7!2sLe+Chaplin%2C+Rue+des+3+Maillets%2C+Fontainebleau%2C+France!3m2!1d48.404486899999995!2d2.6993698!5e0!3m2!1sfr!2sus!4v1552056678145" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+					<p>Trajet IUT - Le Chaplin</p>
+					<a style="text-decoration:none" target="_blank" href="https://www.google.com/maps/dir/IUT+S%C3%A9nart-Fontainebleau,+Route+foresti%C3%A8re+Hurtault,+77300+Fontainebleau,+France/Le+Chaplin,+4+Rue+des+3+Maillets,+77300+Fontainebleau,+France/@48.40108,2.693583,15z/data=!4m14!4m13!1m5!1m1!1s0x47e5f482d85b7b99:0x25ca8642ba306cfc!2m2!1d2.68723!2d48.398223!1m5!1m1!1s0x47e5f489aa0bf91d:0x250206940f32ffd7!2m2!1d2.6993698!2d48.4044869!3e1?hl=fr-FR"><button style="width: 90px;height: 40px;" type="button">
+					D&eacute;marrer</button></a>
+
+				</div>
+				<br><br>
+				<div style="width:100%">
+					<iframe style="width:100%" src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d10595.263703401328!2d2.68695678178689!3d48.40247801360388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e1!4m5!1s0x47e5f482d85b7b99%3A0x25ca8642ba306cfc!2sIUT+S%C3%A9nart-Fontainebleau%2C+Route+foresti%C3%A8re+Hurtault%2C+77300+Fontainebleau%2C+France!3m2!1d48.398222999999994!2d2.68723!4m5!1s0x47e5f461c652edc5%3A0x436d6825aa903b2b!2sDomino&#39;s+Pizza+Fontainebleau%2C+Rue+Aristide+Briand%2C+Fontainebleau%2C+France!3m2!1d48.408150199999994!2d2.7041931!5e0!3m2!1sfr!2sus!4v1552057604612" width="400" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+					<p>Trajet IUT - Domino's Pizza Fontainebleau</p>
+					<a style="text-decoration:none" target="_blank" href="https://www.google.com/maps/dir/IUT+S%C3%A9nart-Fontainebleau,+Route+foresti%C3%A8re+Hurtault,+77300+Fontainebleau,+France/Domino's+Pizza+Fontainebleau,+14+Rue+Aristide+Briand,+77300+Fontainebleau,+France/@48.402464,2.695712,14z/data=!4m14!4m13!1m5!1m1!1s0x47e5f482d85b7b99:0x25ca8642ba306cfc!2m2!1d2.68723!2d48.398223!1m5!1m1!1s0x47e5f461c652edc5:0x436d6825aa903b2b!2m2!1d2.7041931!2d48.4081502!3e1?hl=fr-FR"><button style="width: 90px;height: 40px;" type="button">
+					D&eacute;marrer</button></a>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-teal w3-padding-16 w3-half">
+  	<div class="logo">
+          <img src="img/logo.png" width="50px" style="line-height:normal; float:right"/>
+        </div>
+
+  <p>Groupe FastAndVTT &copy;Copyright 2019</p>
+</footer>
+</body>
+</html>
+

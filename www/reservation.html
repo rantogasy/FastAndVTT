@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Réservations</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">  	
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/session.js"></script>
+
+	<script>
+
+		$(function() {
+
+			if(getCookie("lastname") != "" && getCookie("lastname") != null && getCookie("firstname") != "" && getCookie("firstname") != null && getCookie("id") != "" && getCookie("id") != null && getCookie("token") != "" && getCookie("token") != null){
+
+				let o = {
+					"id": getCookie("id"),
+					"token": getCookie("token")
+				}
+
+				$.ajax( {
+					url: "http://dwarves.iut-fbleau.fr/~ralijaon/fichiersPT/api.php",
+					method: "post",
+					data: $.param(o),
+					dataType: "text",
+					success: function(response) {
+						if(response != "success"){
+							document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+							document.location.href = 'index.html';
+						}
+
+					}
+				});
+
+			} else {
+				document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+				document.location.href = 'index.html';
+			}
+
+		});
+	</script>
+</head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body class="w3-content" style="max-width:1300px">
+
+	<!-- Third Grid: Swing By & Contact -->
+	<div class="w3-row" id="contact">
+		<div class="w3-half w3-teal w3-container">
+		  <ul class="dropdownmenu">
+        	<li style="width:20%"><a href="#"><img style="width:120px" src="./img/menu.png"/></a>
+			<ul>
+				<li><a href="reservation.html" class="active">Réservations</a></li>
+				<li><a href="trajet.html">Trajets</a></li>
+				<li><a href="evenement.html">Evénements</a></li>
+				<li><a href="livredor.html">Livre d'or</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li style="background: red"><a href="logout.html"><i class="fas fa-sign-out-alt"></i></a></li>
+			</ul>
+			</ul>
+			<div class="w3-padding-34 w3-padding-large">
+				<br><br><br>
+				<h1>Réservations</h1>
+				<p id="message"></p>
+				<p>Dans cet onglet, veuillez choisir un créneau horaire de réservation en indiquant bien votre nom et prénom, et choisissez le vélo à réserver.</p>
+			</div>
+			<iframe src="https://www.sagenda.net/Frontend/5c892a259b08372e40d8f137" width="100%" height="500" frameborder="0" allowtransparency="true"
+			sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-top-navigation allow-scripts allow-forms"></iframe>
+		</div>
+	</div>
+	<!-- Footer -->
+	<footer class="w3-container w3-teal w3-padding-16 w3-half">
+		<div class="logo">
+			<img src="img/logo.png" width="50px" style="line-height:normal; float:right"/>
+		</div>
+		<p>Groupe FastAndVTT &copy;Copyright 2019</p>
+	</footer>
+
+</body>
+</html>

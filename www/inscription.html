@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>INSCRIPTION</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/session.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      <!--#my-form grabs the form id-->
+      $("#inscription").submit(function(e) {
+        e.preventDefault();
+        $.ajax( {
+          <!--insert.php calls the PHP file-->
+          url: "http://dwarves.iut-fbleau.fr/~ralijaon/fichiersPT/inscription.php",
+          method: "post",
+          data: $("form").serialize(),
+          dataType: "text",
+          success: function(strMessage) {
+            $("#message").text(strMessage);
+            $("#inscription")[0].reset();
+          }
+        });
+      });
+});
+</script> 
+</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body class="w3-content" style="max-width:1300px">
+
+  <!-- Third Grid: Swing By & Contact -->
+  <div class="w3-row" name="contact">
+    <div class="w3-half w3-teal w3-container">
+            <ul class="dropdownmenu">
+        <li><a href="#">Menu</a>
+          <ul>
+            <li><a href="index.html">Connexion</a></li>
+            <li><a href="inscription.html" class="active">Inscription</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="w3-padding-64 w3-padding-large">
+        <h1>Inscription</h1>
+        <p id="message"></p>
+
+        <form class="w3-container w3-card w3-padding-32 w3-white" name="inscription" id="inscription" action="" method="post">
+          <div class="w3-section">
+            <label>Nom</label>
+            <input class="w3-input" style="width:100%;" type="text"  name="nom" id="nom" required>
+          </div>
+          <div class="w3-section">
+            <label>Prénom</label>
+            <input class="w3-input" style="width:100%;" type="text" name="prenom" id="prenom" required>
+          </div>
+          <div class="w3-section">
+            <label>Num&eacute;ro d'étudiant</label>
+            <input class="w3-input" placeholder="ex: 217*****" style="width:100%;" type="number"  name="numEtu" id="numEtu" required>
+          </div>
+          <div class="w3-section">
+            <label>Mot de passe</label>
+            <input class="w3-input" placeholder="Au minimum 6 caractères" style="width:100%;" type="password" name="mdp" id="mdp" required>
+          </div>
+          <div class="w3-section">
+            <label>Confirmation mot de passe</label>
+            <input class="w3-input" placeholder="Au minimum 6 caractères" style="width:100%;" type="password" name="mdpConfirmation" id="mdpConfirmation" required>
+          </div>
+          <input type="submit" value="S'inscrire" class="w3-button w3-teal w3-right">
+          <a href="index.html" <button class="w3-button w3-teal w3-left">Se connecter</button></a>
+        </form>
+        
+
+
+
+      <!--  <script type="text/javascript">
+          function showUser(str) {
+            if (str == "") {
+              document.getElementById("txtHint").innerHTML = "";
+              return;
+            } else { 
+              if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+          } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              document.getElementById("txtHint").innerHTML = this.responseText;
+            }
+          };
+          xmlhttp.open("GET","getuser.php?q="+str,true);
+          xmlhttp.send();
+        }
+      }
+    </script> -->
+
+  </div>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-teal w3-padding-16 w3-half">
+  	<div class="logo">
+          <img src="img/logo.png" width="50px" style="line-height:normal; float:right"/>
+        </div>
+
+  <p>Groupe FastAndVTT &copy;Copyright 2019</p>
+</footer>
+
+</body>
+</html>
+

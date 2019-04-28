@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Livre d'or</title>
+
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/session.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      <!--#my-form grabs the form id-->
+      $("#livredor").submit(function(e) {
+        e.preventDefault();
+        $.ajax( {
+          <!--insert.php calls the PHP file-->
+          url: "http://dwarves.iut-fbleau.fr/~ralijaon/fichiersPT/livredor.php",
+          method: "post",
+          data: $("form").serialize(),
+          dataType: "text",
+          success: function(strMessage) {
+            $("#message").text(strMessage);
+            $("#livredor")[0].reset();
+          }
+        });
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+
+    $(function() {
+
+      if(getCookie("lastname") != "" && getCookie("lastname") != null && getCookie("firstname") != "" && getCookie("firstname") != null && getCookie("id") != "" && getCookie("id") != null && getCookie("token") != "" && getCookie("token") != null){
+
+        let o = {
+          "id": getCookie("id"),
+          "token": getCookie("token")
+        }
+
+        $.ajax( {
+          url: "http://dwarves.iut-fbleau.fr/~ralijaon/fichiersPT/api.php",
+          method: "post",
+          data: $.param(o),
+          dataType: "text",
+          success: function(response) {
+            if(response != "success"){
+              document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+              document.location.href = 'index.html';
+            }
+
+          }
+        });
+
+      } else {
+        document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+        document.location.href = 'index.html';
+      }
+
+    });
+  </script>
+</head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<body class="w3-content" style="max-width:1300px">
+
+
+
+
+
+  <!-- Third Grid: Swing By & Contact -->
+  <div class="w3-row" id="contact">
+    <div class="w3-half w3-teal w3-container">
+      <ul class="dropdownmenu">
+          <li style="width:20%"><a href="#"><img style="width:120px" src="./img/menu.png"/></a>
+        <ul>
+        <li><a href="reservation.html">Réservations</a></li>
+        <li><a href="trajet.html">Trajets</a></li>
+        <li><a href="evenement.html">Evénements</a></li>
+        <li><a href="livredor.html" class="active">Livre d'or</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li style="background: red"><a href="logout.html"><i class="fas fa-sign-out-alt"></i></a></li>
+      </ul>
+      </li>
+      </ul>
+      <div class="w3-padding-32 w3-padding-large">
+        <h1>Livre d'or</h1>
+        <p id="message"></p>
+    <div class="just-comments" data-apikey="8a13d426-7bfb-4bb2-a1c8-600433e1f491"  data-sort="desc" data-pagesize="5"  data-hideattribution="true" ></div>
+<script async src="https://just-comments.com/w.js"></script>
+    </div>
+  </div>
+  </div>
+    <!-- Footer -->
+<footer class="w3-container w3-teal w3-padding-16 w3-half" style="bottom:0">
+    <div class="logo">
+          <img src="img/logo.png" width="50px" style="line-height:normal; float:right"/>
+        </div>
+
+  <p>Groupe FastAndVTT &copy;Copyright 2019</p>
+</footer>
+
+</body>
+</html>

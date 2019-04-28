@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Connexion</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/session.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#connexion").submit(function(e) {
+        e.preventDefault();
+        $.ajax( {
+          url: "http://dwarves.iut-fbleau.fr/~ralijaon/fichiersPT/connexion.php",
+          method: "post",
+          data: $("form").serialize(),
+          dataType: "text",
+          success: function(jsonArray) {
+
+            console.log(jsonArray);
+
+            let array = JSON.parse(jsonArray);
+
+            if (array.status == "Success"){
+
+              const identifiant = array.informations.id;
+
+              const lastname = array.informations.lastname;
+
+              const firstname = array.informations.firstname;
+              
+              const token = array.informations.token;
+              
+              setCookie("id", identifiant, 240);
+              setCookie("lastname", lastname, 240);
+              setCookie("firstname", firstname, 240);
+              setCookie("token", token, 240);
+
+              document.location.href = "reservation.html";    
+              
+            } else {
+
+              $("#message").text(array.informations.message);
+              $("#connexion")[0].reset();
+              
+            }
+
+          }
+        });
+      });
+    });
+  </script>
+
+  <style type="text/css">
+
+  .acc {
+   float: right;
+   line-height:normal;
+ }
+</style>
+</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body class="w3-content" style="max-width:1300px">
+
+  <div id="content">
+   <!-- Third Grid: Swing By & Contact -->
+   <div class="w3-row" id="contact">
+    <div class="w3-half w3-teal w3-container">
+      <div class="w3-padding-64 w3-padding-large"><div class="acc">
+      </div>
+  
+        <img src="img/banniere.png" style="width:100% ">
+ 
+      <br>
+      <h1>Connexion</h1>
+      <p id="message"></p>
+      <a href="https://www.youtube.com/" id="site"></a>
+      <p class="w3-opacity">Interface de connexion</p>
+      <div class="w3-container w3-card w3-padding-32 w3-white">
+        <form name="connexion" id="connexion" action="" method="post">
+          <div class="w3-section">
+            <label>Identifiant (numéro  étudiant)</label>
+            <input class="w3-input" style="width:100%;" type="number" placeholder="Ex: 217..."  name="identifiant" required>
+          </div>
+          <div class="w3-section">
+            <label>Mot de passe</label>
+            <input class="w3-input" style="width:100%;" type="password" placeholder="Entrez votre mot de passe"  name="mdp" required>
+          </div>
+          <input type="submit" value="Connexion" class="w3-button w3-teal w3-right">
+        </form>
+        <a href="inscription.html" <button class="w3-button w3-teal w3-left">S'inscrire</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-teal w3-padding-16 w3-half">
+ <div class="logo">
+  <img src="img/logo.png" width="50px" style="line-height:normal; float:right"/>
+</div>
+
+<p>Groupe FastAndVTT &copy;Copyright 2019</p>
+</footer>
+</body>
+</html>
